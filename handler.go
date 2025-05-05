@@ -93,6 +93,7 @@ const (
 	ansiFaint          = "\u001b[2m"
 	ansiResetFaint     = "\u001b[22m"
 	ansiBrightRed      = "\u001b[91m"
+	ansiBrightBlue     = "\u001b[94m"
 	ansiBrightGreen    = "\u001b[92m"
 	ansiBrightYellow   = "\u001b[93m"
 	ansiBrightRedFaint = "\u001b[91;2m"
@@ -308,8 +309,10 @@ func (h *handler) appendTime(buf *buffer, t time.Time) {
 func (h *handler) appendLevel(buf *buffer, level slog.Level) {
 	switch {
 	case level < slog.LevelInfo:
+		buf.WriteStringIf(!h.noColor, ansiBrightBlue)
 		buf.WriteString("DBG")
 		appendLevelDelta(buf, level-slog.LevelDebug)
+		buf.WriteStringIf(!h.noColor, ansiReset)
 	case level < slog.LevelWarn:
 		buf.WriteStringIf(!h.noColor, ansiBrightGreen)
 		buf.WriteString("INF")
