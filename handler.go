@@ -379,7 +379,7 @@ func (h *handler) appendTintLevel(buf *buffer, level slog.Level, color int16) {
 		buf.Write(str("ERR", level-slog.LevelError))
 	}
 
-	if !h.opts.NoColor && level >= slog.LevelInfo {
+	if !h.opts.NoColor {
 		buf.WriteString(ansiReset)
 	}
 }
