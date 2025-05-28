@@ -357,6 +357,7 @@ func (h *handler) appendTintLevel(buf *buffer, level slog.Level, color int16) {
 		} else {
 			switch {
 			case level < slog.LevelInfo:
+				buf.WriteString(ansiBrightBlue)
 			case level < slog.LevelWarn:
 				buf.WriteString(ansiBrightGreen)
 			case level < slog.LevelError:
@@ -369,10 +370,7 @@ func (h *handler) appendTintLevel(buf *buffer, level slog.Level, color int16) {
 
 	switch {
 	case level < slog.LevelInfo:
-		buf.WriteStringIf(!h.noColor, ansiBrightBlue)
-		buf.WriteString("DBG")
-		appendLevelDelta(buf, level-slog.LevelDebug)
-		buf.WriteStringIf(!h.noColor, ansiReset)
+		buf.Write(str("DBG", level-slog.LevelDebug))
 	case level < slog.LevelWarn:
 		buf.Write(str("INF", level-slog.LevelInfo))
 	case level < slog.LevelError:
